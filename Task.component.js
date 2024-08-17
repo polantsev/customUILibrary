@@ -12,6 +12,7 @@ export function TaskComponent(props) {
 }
 
 TaskComponent.render = ({element, props}) => {
+    element.innerHTML = '';
     console.log('TaskComponent render');
 
     element.append(props.task.title);
