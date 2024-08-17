@@ -9,14 +9,12 @@ export function AppComponent() {
         childrenComponents: []
     }
 
-    AppComponent.render({element, localState})
-
     return {
         localState, element,
     }
 }
 
-AppComponent.render = ({element, localState, props}) => {
+AppComponent.render = ({element, localState, props, library}) => {
     element.innerHTML = '';
     localState.childrenComponents.forEach(component => component.cleanup?.())
     localState.childrenComponents = [];
@@ -39,18 +37,18 @@ AppComponent.render = ({element, localState, props}) => {
 
     pageSelector.addEventListener("change", () => {
         localState.page = pageSelector.value
-        AppComponent.render({element, localState})
+        AppComponent.render({element, localState, library})
     })
 
     switch (localState.page) {
         case 'counter': {
-            const counterInstance = CounterComponent();
+            const counterInstance = library.create(CounterComponent);
             localState.childrenComponents.push(counterInstance)
             element.append(counterInstance.element)
             break
         }
         case 'todolist': {
-            const todolistInstance = TodolistComponent();
+            const todolistInstance = library.create(TodolistComponent);
             localState.childrenComponents.push(todolistInstance)
             element.append(todolistInstance.element)
             break

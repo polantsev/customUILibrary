@@ -18,15 +18,13 @@ export function TodolistComponent() {
         childrenComponents: []
     }
 
-    TodolistComponent.render({element, localState});
-
     return {
         element,
         localState,
     }
 }
 
-TodolistComponent.render = ({element, localState}) => {
+TodolistComponent.render = ({element, localState, library}) => {
     element.innerHTML = ''
     localState.childrenComponents.forEach(component => component.cleanup?.())
     // localState.childrenComponents = [];
@@ -50,7 +48,7 @@ TodolistComponent.render = ({element, localState}) => {
             }
             element.append(alreadyExistedComponent.element)
         } else {
-            const taskInstance = TaskComponent({
+            const taskInstance = library.create(TaskComponent, {
                 task: localState.tasks[i],
                 setIsDone: localState.setIsDone,
             })
