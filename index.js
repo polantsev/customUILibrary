@@ -1,3 +1,7 @@
+import {AppComponent} from "./App.component.js";
+
 const rootElement = document.getElementById('root');
 
-rootElement.append('Hello World!');
+const appInstance = AppComponent();
+
+rootElement.append(appInstance.element);
