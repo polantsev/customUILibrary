@@ -15,7 +15,6 @@ export function AppComponent() {
 }
 
 AppComponent.render = ({element, localState, props, library}) => {
-    element.innerHTML = '';
     localState.childrenComponents.forEach(component => component.cleanup?.())
     localState.childrenComponents = [];
 
@@ -37,7 +36,7 @@ AppComponent.render = ({element, localState, props, library}) => {
 
     pageSelector.addEventListener("change", () => {
         localState.page = pageSelector.value
-        AppComponent.render({element, localState, library})
+        library.refresh();
     })
 
     switch (localState.page) {

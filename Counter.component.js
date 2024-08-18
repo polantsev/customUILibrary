@@ -1,4 +1,4 @@
-export function CounterComponent() {
+export function CounterComponent(_, {library}) {
     const element = document.createElement('div');
 
     console.log('CounterComponent mount');
@@ -9,10 +9,8 @@ export function CounterComponent() {
 
     const interval = setInterval(() => {
         localState.value++
-        CounterComponent.render({element, localState})
+        library.refresh();
     }, 1000)
-
-    CounterComponent.render({element, localState})
 
     return {
         localState,
@@ -24,7 +22,6 @@ export function CounterComponent() {
 }
 
 CounterComponent.render = ({element, localState}) => {
-    element.innerHTML = ''
     console.log('CounterComponent');
 
     element.append(localState.value)

@@ -3,8 +3,6 @@ export function TaskComponent(props) {
 
     const element = document.createElement('li');
 
-    TaskComponent.render({element, props});
-
     return {
         element,
         props
@@ -12,7 +10,6 @@ export function TaskComponent(props) {
 }
 
 TaskComponent.render = ({element, props}) => {
-    element.innerHTML = '';
     console.log('TaskComponent render');
 
     element.append(props.task.title);

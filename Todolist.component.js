@@ -1,6 +1,6 @@
 import {TaskComponent} from "./Task.component.js";
 
-export function TodolistComponent() {
+export function TodolistComponent(_, {library}) {
     console.log('TodolistComponent mount');
 
     const element = document.createElement('ul')
@@ -13,7 +13,7 @@ export function TodolistComponent() {
         ],
         setIsDone(taskId, isDone) {
             localState.tasks = localState.tasks.map(task => task.id !== taskId ? task : {...task, isDone})
-            TodolistComponent.render({element, localState});
+            library.refresh()
         },
         childrenComponents: []
     }
@@ -25,7 +25,6 @@ export function TodolistComponent() {
 }
 
 TodolistComponent.render = ({element, localState, library}) => {
-    element.innerHTML = ''
     localState.childrenComponents.forEach(component => component.cleanup?.())
     // localState.childrenComponents = [];
     console.log('TodolistComponent render');
@@ -35,26 +34,26 @@ TodolistComponent.render = ({element, localState, library}) => {
     for (let i = 0; i < localState.tasks.length; i++) {
         const alreadyExistedComponent = localState.childrenComponents[i];
 
-        if (alreadyExistedComponent) {
-            if (localState.tasks[i] !== alreadyExistedComponent.props.task) {
-                alreadyExistedComponent.props.task = localState.tasks[i]
-
-                TaskComponent.render({
-                    element: alreadyExistedComponent.element, props: {
-                        task: localState.tasks[i],
-                        setIsDone: localState.setIsDone,
-                    }
-                });
-            }
-            element.append(alreadyExistedComponent.element)
-        } else {
-            const taskInstance = library.create(TaskComponent, {
-                task: localState.tasks[i],
-                setIsDone: localState.setIsDone,
-            })
-            element.append(taskInstance.element)
-            localState.childrenComponents.push(taskInstance)
-        }
+        // if (alreadyExistedComponent) {
+        //     if (localState.tasks[i] !== alreadyExistedComponent.props.task) {
+        //         alreadyExistedComponent.props.task = localState.tasks[i]
+        //
+        //         TaskComponent.render({
+        //             element: alreadyExistedComponent.element, props: {
+        //                 task: localState.tasks[i],
+        //                 setIsDone: localState.setIsDone,
+        //             }
+        //         });
+        //     }
+        //     element.append(alreadyExistedComponent.element)
+        // } else {
+        const taskInstance = library.create(TaskComponent, {
+            task: localState.tasks[i],
+            setIsDone: localState.setIsDone,
+        })
+        element.append(taskInstance.element)
+        localState.childrenComponents.push(taskInstance)
+        // }
     }
 
 }
